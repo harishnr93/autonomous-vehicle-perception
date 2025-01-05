@@ -1,6 +1,6 @@
 ## Self-Driving Car Perception Pipeline in Python
 
-This code implements a perception pipeline for a self-driving car using Python libraries like OpenCV, NumPy, and custom perception algorithms defined in the `separate` file.
+This code implements a perception pipeline for a self-driving car using Python libraries like OpenCV, NumPy, and custom perception algorithms defined in a `separate` file.
 
 The script utilizes a pre-recorded dataset containing various frames, including:
 
