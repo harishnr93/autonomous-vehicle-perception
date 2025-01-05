@@ -4,7 +4,9 @@ import numpy as np
 import cv2
 
 from matplotlib import pyplot as plt
+import matplotlib.ticker as mticker
 
+path = 'H:\VS_Code\workspace\git' + '\\' + 'autonomous-vehicle-perception\data'
 
 class DatasetHandler:
 
@@ -12,12 +14,17 @@ class DatasetHandler:
         # Define number of frames
         self.num_frames = 3
 
+        path_rgb = path + '\\' + 'rgb'
+        path_depth = path + '\\' + 'depth'
+        path_seg = path + '\\' + 'segmentation'
+
+
         # Set up paths
         root_dir_path = os.path.dirname(os.path.realpath(__file__))
-        self.image_dir = os.path.join(root_dir_path, 'data/rgb')
-        self.depth_dir = os.path.join(root_dir_path, 'data/depth')
+        self.image_dir = os.path.join(root_dir_path, path_rgb)
+        self.depth_dir = os.path.join(root_dir_path, path_depth)
         self.segmentation_dir = os.path.join(
-            root_dir_path, 'data/segmentation')
+            root_dir_path, path_seg)
 
         # Set up initial iterator value
         self.current_frame = 0
@@ -158,7 +165,9 @@ class DatasetHandler:
 
         for obj in objects:
             category = obj[0]
-            bounding_box = np.asfarray(obj[1:5]).astype(int)
+            #bounding_box = np.array(obj[1:5], dtype=int) 
+            #print(obj)
+            bounding_box = np.array([float(x) for x in obj[1:5]], dtype=int) 
 
             image_out = cv2.rectangle(image_out.astype(np.uint8),
                                       (bounding_box[0], bounding_box[1]),
@@ -221,16 +230,22 @@ class DatasetHandler:
         fig, ax = plt.subplots(nrows=1, ncols=1)
         ax.imshow(occ_grid, cmap='Greys')
 
-        labels = ax.get_xticks()
-        labels = [str((label - 200) / 10.0) for label in labels]
-        ax.set_xticklabels(labels)
+#        labels = ax.get_xticks()
+#        labels = [str((label - 200) / 10.0) for label in labels]
+#        ax.set_xticklabels(labels)
 
-        labels = ax.get_yticks()
-        labels = [str(label / 10.0) for label in labels]
-        ax.set_yticklabels(labels)
+#        labels = ax.get_yticks()
+#        labels = [str(label / 10.0) for label in labels]
+#        ax.set_yticklabels(labels)
+
+        ax.xaxis.set_major_locator(mticker.MaxNLocator(integer=True))  # Set integer ticks
+        ax.xaxis.set_major_formatter(mticker.FuncFormatter(lambda x, pos: f'{(x-200)/10:.0f}'))  # Format labels
+        ax.yaxis.set_major_locator(mticker.MaxNLocator(integer=True))  # Set integer ticks
+        ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda y, pos: f'{y/10:.0f}'))  # Format labels
 
         ax.invert_yaxis()
-        plt.show()
+        plt.title("Estimated Drivable Space in 3D")
+        #plt.show()
 
 
 def compute_plane(xyz):
