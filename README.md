@@ -43,6 +43,13 @@ Here's a breakdown of the functionalities covered in the code:
 * Calculates the minimum distance to each detected object using their 2D bounding boxes and the 3D point cloud information (function: `find_min_distance_to_detection` from `perception_algo.py`).
 * Visualizes the filtered detections along with their estimated distances to impact displayed on the image.
 
+**Final Artifacts**
+
+<div align="left">
+<img src="./results/autonomous_vehicle_perception.jpg" alt="Autonomous Vehicle Perception" width="1000"><br><br>
+</div>
+
+
 **Overall, this script demonstrates a perception pipeline for a self-driving car that leverages various computer vision techniques to extract critical information from sensor data, enabling the car to understand its surroundings, identify drivable areas, and detect potential obstacles.**
 
 By integrating various perception algorithms, the main script - environment_perception can perform various tasks crucial for self-driving car navigation.
